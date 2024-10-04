@@ -27,8 +27,12 @@ abstract class TestCase
     final public function run(): void
     {
         $this->setUp();
-        $this->execute();
-        $this->tearDown();
+
+        try {
+            $this->execute();
+        } finally {
+            $this->tearDown();
+        }
     }
 
     final public function getContainer(): ContainerInterface
