@@ -1,0 +1,26 @@
+{
+    "name": "phpdevcommunity/unitester",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "PhpDevCommunity\\UniTester\\": "src",
+            "Test\\PhpDevCommunity\\UniTester\\": "tests"
+        },
+        "files": [
+            "src/assert.php"
+        ]
+    },
+    "require": {
+        "php": ">=7.4",
+        "ext-mbstring": "*",
+        "psr/container": "^2.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "F. Michel",
+            "homepage": "https://www.phpdevcommunity.com"
+        }
+    ],
+    "bin": ["bin/unitester"]
+}
