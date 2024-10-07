@@ -44,10 +44,21 @@ abstract class TestCase
         return $this->container;
     }
 
+    final protected function assertStrictEquals($expected, $actual): void
+    {
+        assert_strict_equals($expected, $actual);
+        $this->assertions++;
+    }
 
     final protected function assertEquals($expected, $actual): void
     {
         assert_equals($expected, $actual);
+        $this->assertions++;
+    }
+
+    final protected function assertNotStrictEquals($expected, $actual): void
+    {
+        assert_not_strict_equals($expected, $actual);
         $this->assertions++;
     }
 

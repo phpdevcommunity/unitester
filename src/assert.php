@@ -5,16 +5,29 @@ namespace PhpDevCommunity\UniTester;
 use Exception;
 use PhpDevCommunity\UniTester\Exception\AssertionFailureException;
 
-function assert_equals($expected, $actual, string $message = ''): void
+function assert_strict_equals($expected, $actual, string $message = ''): void
 {
     if ($expected !== $actual) {
+        throw new AssertionFailureException($message ?: "Expected '{$expected}', got '{$actual}'");
+    }
+}
+function assert_equals($expected, $actual, string $message = ''): void
+{
+    if ($expected != $actual) {
+        throw new AssertionFailureException($message ?: "Expected '{$expected}', got '{$actual}'");
+    }
+}
+
+function assert_not_strict_equals($expected, $actual, string $message = ''): void
+{
+    if ($expected === $actual) {
         throw new AssertionFailureException($message ?: "Expected '{$expected}', got '{$actual}'");
     }
 }
 
 function assert_not_equals($expected, $actual, string $message = ''): void
 {
-    if ($expected === $actual) {
+    if ($expected == $actual) {
         throw new AssertionFailureException($message ?: "Expected '{$expected}', got '{$actual}'");
     }
 }

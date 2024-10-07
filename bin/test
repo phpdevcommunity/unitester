@@ -12,6 +12,8 @@ use Test\PhpDevCommunity\UniTester\ComparisonTest;
 use Test\PhpDevCommunity\UniTester\ExceptionHandlingTest;
 use function PhpDevCommunity\UniTester\assert_empty;
 use function PhpDevCommunity\UniTester\assert_equals;
+use function PhpDevCommunity\UniTester\assert_not_strict_equals;
+use function PhpDevCommunity\UniTester\assert_strict_equals;
 use function PhpDevCommunity\UniTester\assert_false;
 use function PhpDevCommunity\UniTester\assert_instanceof;
 use function PhpDevCommunity\UniTester\assert_negative_int;
@@ -90,7 +92,9 @@ final class SelfTest
 
         $hello = 'Hello';
         try {
-            assert_equals(5, 5);
+            assert_strict_equals(5, 5);
+            assert_equals(5, '5');
+            assert_not_strict_equals(true, 1);
             assert_not_equals(5, 6);
             assert_similar($hello, $hello);
             assert_true(true);
@@ -116,7 +120,19 @@ final class SelfTest
         // Test exceptions
         $throwMessage = 'Expected exception not thrown. : ' . AssertionFailureException::class;
         try {
+            assert_strict_equals(true, 1);
+            throw new RuntimeException(sprintf('Line %d: %s', __LINE__, $throwMessage));
+        } catch (AssertionFailureException $e) {
+        }
+
+        try {
             assert_equals(5, 6);
+            throw new RuntimeException(sprintf('Line %d: %s', __LINE__, $throwMessage));
+        } catch (AssertionFailureException $e) {
+        }
+
+        try {
+            assert_not_strict_equals(false, false);
             throw new RuntimeException(sprintf('Line %d: %s', __LINE__, $throwMessage));
         } catch (AssertionFailureException $e) {
         }

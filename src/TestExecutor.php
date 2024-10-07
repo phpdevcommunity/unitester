@@ -42,7 +42,7 @@ final class TestExecutor
                 $this->logSuccess($testCase);
             } catch (Throwable $e) {
                 $failedTests++;
-                $this->logFailure($class, $e->getMessage());
+                $this->logFailure($class, $e);
             }
 
         }
@@ -87,8 +87,13 @@ final class TestExecutor
         $this->output->write(PHP_EOL);
     }
 
-    private function logFailure($testCase, string $message): void
+    private function logFailure($testCase, Throwable $e): void
     {
+        $message = $e->getMessage();
+        $this->output->writeln(sprintf('❌ Critical error in %s: %s', get_class($e), $message), true);
+        $this->output->writeln('Stack trace:', true);
+        $this->output->writeln($e->getTraceAsString(), true);
+
         $testName = is_object($testCase) ? get_class($testCase) : $testCase;
         $this->output->write("✘ $testName FAILED : $message", 'red');
         $this->output->write(PHP_EOL);
